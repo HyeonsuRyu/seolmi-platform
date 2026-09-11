@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>{{ title or "초원(Chowon)" }}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; color: #222; }
+    h1 { font-size: 1.4rem; }
+    ul { line-height: 2; }
+    a { color: #0a6b3a; }
+  </style>
+</head>
+<body>
+  <h1>{{ title or "초원(Chowon) 우설 유통·판매 플랫폼" }}</h1>
+  {% if links %}
+  <ul>
+    {% for href, label in links %}
+    <li><a href="{{ href }}">{{ label }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% block content %}{% endblock %}
+</body>
+</html>

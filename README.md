@@ -6,8 +6,11 @@
 > CS 챗봇은 그중 `app/domains/cs/` 모듈 하나다. 저장소 이름의 `chatbot` 은 초기 명명이며
 > `chowon-platform` 으로 변경 예정 (→ 7장).
 
-> ⚠️ **현재 단계: 설계 문서만 확정된 상태.**
-> 3장 폴더 구조와 4장 실행 방법은 **목표 구성**이며 아직 구현 코드는 없다.
+> ⚠️ **현재 단계: CS 챗봇 도메인 1개만 프로토타입으로 구현됨.**
+> (HYUNDAI AI Insight Campus "LangChain으로 만드는 웹 기반 챗봇 실습" 강의안 예제 기반)
+> 8장 "인원 제약"에 따라 CS 챗봇만 먼저 동작하고, 나머지 면(B2B/B2C/관리자)과
+> 도메인(catalog/traceability/inventory/orders/pricing)은 폴더 스켈레톤 또는
+> "준비 중" 스케치 페이지로만 존재한다. 무엇이 실제로 동작하는지는 3장·4장에 표시했다.
 
 **표기 약속** — 이 문서 전체에 적용한다.
 
@@ -51,51 +54,54 @@ B2B·관리자 기능은 스마트스토어에 넣지 않는다 (스마트스토
 
 ## 3. 폴더 구조
 
+`✅` 구현됨 · `🩹` 스켈레톤/스케치만(폴더·자리표시자, 동작 안 함) · `📄` 문서 자리만
+
 ```
 chowon-chatbot/                # → chowon-platform 으로 변경 예정
 ├─ README.md
 ├─ docs/
-│  ├─ architecture.md          # 3면 구조와 데이터 흐름
-│  ├─ cs-routing.md            # CS 라우팅 규칙 상세 (5장의 원본) — 김정민
-│  ├─ domain-model.md          # 개체·상품·주문 모델 — 박경환
-│  ├─ screens.md               # 3면 화면 흐름·사용자 시나리오 — 김정민
-│  ├─ brand.md                 # 마스코트·톤앤매너·카피 규칙 — 임세준
-│  └─ decisions/               # 설계 결정 기록(ADR). 왜 그렇게 했는지를 남긴다
+│  ├─ architecture.md          🩹 3면 구조와 데이터 흐름 — 담당 미정
+│  ├─ cs-routing.md            📄 CS 라우팅 규칙 상세 (5장의 원본) — 김정민
+│  ├─ domain-model.md          🩹 개체·상품·주문 모델 — 박경환
+│  ├─ screens.md               🩹 3면 화면 흐름·사용자 시나리오 — 김정민
+│  ├─ brand.md                 🩹 마스코트·톤앤매너·카피 규칙 — 임세준
+│  └─ decisions/               🩹 설계 결정 기록(ADR)
 ├─ app/
-│  ├─ main.py
-│  ├─ core/                    # 설정, 인증, 공통 의존성
+│  ├─ main.py                  ✅ FastAPI 앱, 라우터 등록
+│  ├─ core/                    🩹 설정(✅ config.py)·인증(🩹 security.py, JWT 미구현)
 │  ├─ api/
-│  │  ├─ b2b/                  # 사업장용 엔드포인트
-│  │  ├─ b2c/                  # 소비자용 엔드포인트
-│  │  └─ admin/                # 관리자용 엔드포인트
+│  │  ├─ b2b/                  🩹 "준비 중" 스케치 페이지 1장
+│  │  ├─ b2c/                  🩹 "준비 중" 스케치 페이지 1장
+│  │  └─ admin/                🩹 "준비 중" 스케치 페이지 1장
 │  ├─ domains/
-│  │  ├─ catalog/              # 상품·규격
-│  │  ├─ traceability/         # 개체 이력번호, 도축~발송 경과일
-│  │  ├─ inventory/            # 재고·입출고
-│  │  ├─ orders/               # 주문·결제·정산
-│  │  ├─ pricing/              # B2B 단가표, B2C 판매가
-│  │  └─ cs/                   # 티켓, 부서 라우팅, LLM 호출
-│  ├─ models/                  # SQLAlchemy 모델
-│  ├─ schemas/                 # Pydantic 스키마
-│  ├─ templates/               # Jinja2 템플릿 (면별 하위 폴더)
-│  └─ static/                  # 정적 자산 — 마스코트·아이콘 — 임세준
-├─ prompts/
+│  │  ├─ catalog/              🩹 상품·규격 — 미구현
+│  │  ├─ traceability/         🩹 개체 이력번호, 도축~발송 경과일 — 미구현
+│  │  ├─ inventory/            🩹 재고·입출고 — 미구현
+│  │  ├─ orders/               🩹 주문·결제·정산 — 미구현
+│  │  ├─ pricing/              🩹 B2B 단가표, B2C 판매가 — 미구현
+│  │  └─ cs/                   ✅ 티켓 분류·부서 라우팅·메모리·RAG·LLM 호출
+│  ├─ models/                  🩹 SQLAlchemy 모델 — DB 연결 전, 자리만
+│  ├─ schemas/                 🩹 공용 Pydantic 스키마 (CS 전용은 domains/cs/schemas.py)
+│  ├─ templates/               ✅ base + cs 챗봇 UI, 🩹 b2b/b2c/admin은 스케치
+│  └─ static/                  🩹 정적 자산 — 마스코트·아이콘 (임세준, 아직 없음)
+├─ prompts/                    ✅ CS 챗봇 프롬프트 (LangChain 강의 실습 기반)
 │  ├─ cs_router.md             # 부서 분류 프롬프트
 │  ├─ cs_reply_marketing.md
 │  ├─ cs_reply_refund.md
 │  ├─ cs_reply_general.md
 │  └─ CHANGELOG.md             # 프롬프트 변경 이력 (코드 커밋과 별도로 추적)
+├─ data/cs_faq/                ✅ 일반문의 RAG용 예시 FAQ (내용은 검수 필요)
 ├─ tests/
-│  └─ cs/routing_cases.yaml    # 문의 → 정답 부서. 실습 8건을 시작점으로
-├─ scripts/
-├─ .env.example
-└─ pyproject.toml
+│  └─ cs/routing_cases.yaml    ✅ 문의 → 정답 부서 8건 + pytest 회귀 테스트
+├─ scripts/                    🩹 비어 있음
+├─ .env.example                ✅
+└─ pyproject.toml              ✅
 ```
 
 `api/` 를 면별로 나눈 이유: 권한 분리가 폴더 단위로 눈에 보여야 B2B 기능이
 B2C 화면에 새는 사고를 막을 수 있다.
 
-## 4. 실행 방법 (목표 구성)
+## 4. 실행 방법 (CS 챗봇 프로토타입 기준 — 실제로 동작함)
 
 ```bash
 git clone https://github.com/HyeonsuRyu/chowon-chatbot.git
@@ -104,13 +110,21 @@ cd chowon-chatbot
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 
-cp .env.example .env        # LLM API 키, DB URL, JWT 시크릿 입력
-alembic upgrade head
+cp .env.example .env        # OPENAI_API_KEY 입력 (DB URL·JWT 시크릿은 아직 미사용)
 uvicorn app.main:app --reload
 ```
 
-API 문서: http://localhost:8000/docs
+- 홈: http://localhost:8000
+- CS 챗봇 데모: http://localhost:8000/cs
+- API 문서: http://localhost:8000/docs
+
+`alembic upgrade head` 는 DB/모델 도메인이 구현되기 전까지는 생략한다(아직 마이그레이션이 없다).
 `.env` 는 절대 커밋하지 않는다.
+
+회귀 테스트(실제 OpenAI API 호출, 비용 발생):
+```bash
+pytest tests/cs/test_routing.py
+```
 
 저장소 이름을 `chowon-platform` 으로 바꾸면 위 두 줄의 `chowon-chatbot` 도 함께 바꾼다.
 GitHub가 옛 URL을 리다이렉트하므로, 이미 클론한 사람은 `git remote set-url origin <새 URL>` 한 줄로 끝난다.

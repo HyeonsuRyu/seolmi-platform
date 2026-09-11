@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>초원 CS 챗봇 (프로토타입)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; color: #222; }
+    #log { border: 1px solid #ddd; border-radius: 8px; padding: 12px; height: 360px; overflow-y: auto; margin-bottom: 12px; }
+    .msg { margin: 8px 0; }
+    .msg.user { text-align: right; }
+    .msg .bubble { display: inline-block; padding: 8px 12px; border-radius: 12px; max-width: 80%; white-space: pre-wrap; }
+    .msg.user .bubble { background: #dff3e6; }
+    .msg.bot .bubble { background: #f1f1f1; }
+    .meta { font-size: 0.75rem; color: #888; margin-top: 2px; }
+    form { display: flex; gap: 8px; }
+    input[type=text] { flex: 1; padding: 8px; }
+    button { padding: 8px 16px; }
+  </style>
+</head>
+<body>
+  <h1>초원 CS 챗봇 (프로토타입)</h1>
+  <p style="color:#666; font-size:0.9rem;">
+    LangChain 강의 실습(LCEL 라우팅 · 대화 메모리 · RAG)을 그대로 적용한 데모입니다.
+    실제 서비스 정책은 아직 확정되지 않았습니다.
+  </p>
+  <div id="log"></div>
+  <form id="chat-form">
+    <input type="text" id="message" placeholder="예: 우설 어떻게 손질해요?" autocomplete="off" required>
+    <button type="submit">전송</button>
+  </form>
+  <p><a href="/">← 홈으로</a></p>
+
+  <script>
+    const sessionId = (() => {
+      let id = localStorage.getItem("chowon_cs_session_id");
+      if (!id) {
+        id = crypto.randomUUID();
+        localStorage.setItem("chowon_cs_session_id", id);
+      }
+      return id;
+    })();
+
+    const log = document.getElementById("log");
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("message");
+
+    function appendMessage(role, text, meta) {
+      const wrap = document.createElement("div");
+      wrap.className = "msg " + role;
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = text;
+      wrap.appendChild(bubble);
+      if (meta) {
+        const metaEl = document.createElement("div");
+        metaEl.className = "meta";
+        metaEl.textContent = meta;
+        wrap.appendChild(metaEl);
+      }
+      log.appendChild(wrap);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
+      appendMessage("user", message);
+      input.value = "";
+
+      try {
+        const res = await fetch("/cs/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_id: sessionId, message }),
+        });
+        if (!res.ok) {
+          appendMessage("bot", "오류가 발생했습니다. (" + res.status + ")");
+          return;
+        }
+        const data = await res.json();
+        const meta = "부서: " + data.department + (data.escalation ? " · 에스컬레이션: " + data.escalation : "");
+        appendMessage("bot", data.reply, meta);
+      } catch (err) {
+        appendMessage("bot", "서버에 연결할 수 없습니다.");
+      }
+    });
+  </script>
+</body>
+</html>

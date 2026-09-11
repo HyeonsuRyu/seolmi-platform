@@ -1,0 +1,19 @@
+# README 5.5: 문의 원문 → 정답 부서. 실습 8건을 시작점으로.
+# 프롬프트(prompts/cs_router.md)를 고칠 때마다 이 케이스로 회귀 테스트한다.
+
+- inquiry: "포장이 터져서 왔어요"
+  department: "환불·교환"
+- inquiry: "취소하고 싶어요"
+  department: "환불·교환"
+- inquiry: "배송이 너무 늦어요, 환불해주세요"
+  department: "환불·교환"
+- inquiry: "식당인데 정기 납품 단가 알 수 있을까요"
+  department: "마케팅"
+- inquiry: "협찬 받고 싶어요, 체험단 모집하시나요?"
+  department: "마케팅"
+- inquiry: "우설 어떻게 손질해요?"
+  department: "일반문의"
+- inquiry: "냉장인가요 냉동인가요"
+  department: "일반문의"
+- inquiry: "포장재는 재활용 가능한가요?"
+  department: "일반문의"
