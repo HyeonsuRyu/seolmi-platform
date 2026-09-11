@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>초원 CS 챗봇 (프로토타입)</title>
+  <title>설미 CS 챗봇 (프로토타입)</title>
   <style>
     body { font-family: system-ui, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; color: #222; }
     #log { border: 1px solid #ddd; border-radius: 8px; padding: 12px; height: 360px; overflow-y: auto; margin-bottom: 12px; }
@@ -18,7 +18,7 @@
   </style>
 </head>
 <body>
-  <h1>초원 CS 챗봇 (프로토타입)</h1>
+  <h1>설미 CS 챗봇 (프로토타입)</h1>
   <p style="color:#666; font-size:0.9rem;">
     LangChain 강의 실습(LCEL 라우팅 · 대화 메모리 · RAG)을 그대로 적용한 데모입니다.
     실제 서비스 정책은 아직 확정되지 않았습니다.
@@ -32,10 +32,10 @@
 
   <script>
     const sessionId = (() => {
-      let id = localStorage.getItem("chowon_cs_session_id");
+      let id = localStorage.getItem("seolmi_cs_session_id");
       if (!id) {
         id = crypto.randomUUID();
-        localStorage.setItem("chowon_cs_session_id", id);
+        localStorage.setItem("seolmi_cs_session_id", id);
       }
       return id;
     })();

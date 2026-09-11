@@ -7,5 +7,5 @@ venv/
 .pytest_cache/
 .vscode/
 .idea/
-chowon.db
+seolmi.db
 .faiss_index/
