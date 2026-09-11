@@ -1,7 +1,7 @@
 [project]
-name = "chowon-chatbot"
+name = "seolmi-platform"
 version = "0.1.0"
-description = "초원(Chowon) 우설 유통·판매 플랫폼 — 프로토타입 (CS 챗봇 도메인만 구현)"
+description = "설미(Seolmi) 우설 유통·판매 플랫폼 — 프로토타입 (CS 챗봇 도메인만 구현)"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.115",

@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
 
     # 폴더 구조상 자리만 잡아둔 값 — DB/인증 도메인 구현 전까지는 사용되지 않는다.
-    database_url: str = "sqlite:///./chowon.db"
+    database_url: str = "sqlite:///./seolmi.db"
     jwt_secret: str = "change-me"
 
 

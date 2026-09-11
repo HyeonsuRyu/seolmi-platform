@@ -6,3 +6,4 @@
 형식: `YYYY-MM-DD 파일명 — 변경 요약 (작성자)`
 
 - 2026-09-11 cs_router.md, cs_reply_refund.md, cs_reply_marketing.md, cs_reply_general.md — 최초 작성, LangChain 강의 실습(LCEL/메모리/RAG) 기반 CS 챗봇 프로토타입 (Claude Code)
+- 2026-09-11 cs_router.md, cs_reply_*.md — 브랜드명 '초원' → '설미' 교체. cs_reply_* 3종에 README 6.2 이름 표기 규칙 한 줄 추가 (Claude Code)

@@ -7,7 +7,7 @@ from app.api.b2b.routes import router as b2b_router
 from app.api.b2c.routes import router as b2c_router
 from app.domains.cs.api import router as cs_router
 
-app = FastAPI(title="초원(Chowon) 플랫폼 프로토타입")
+app = FastAPI(title="설미(Seolmi) 플랫폼 프로토타입")
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
@@ -26,4 +26,4 @@ def index(request: Request):
         ("/b2c", "B2C (스케치 전용)"),
         ("/admin", "관리자 (스케치 전용)"),
     ]
-    return templates.TemplateResponse(request, "base.html", {"title": "초원 프로토타입", "links": links})
+    return templates.TemplateResponse(request, "base.html", {"title": "설미 프로토타입", "links": links})
